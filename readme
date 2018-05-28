@@ -1,0 +1,9 @@
+#install virtualenv
+pip3 install virtualenv
+
+#create virtual env
+virtualenv venv --python=python3.6
+
+#activate virtualenv
+source venv/bin/activate
+
