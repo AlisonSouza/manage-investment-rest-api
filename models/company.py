@@ -7,14 +7,14 @@ class CompanyModel(db.Model):
     name = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))
 
-    #purchases = db.relationship('PurchaseModel', lazy='dynamic')
+    purchases = db.relationship('PurchaseModel', lazy='dynamic')
 
     def __init__(self, name, price):
         self.name = name
         self.price = price
 
     def json(self):
-        return {'name': self.name, 'price': self.price}
+        return {'name': self.name, 'price': self.price, 'purchases': self.purchases.all()}
 
     @classmethod
     def find_by_name(cls, name):

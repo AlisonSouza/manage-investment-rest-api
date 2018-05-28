@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 from models.company import CompanyModel
+from models.purchase import PurchaseModel
 
 class Company(Resource):
     parser = reqparse.RequestParser()
