@@ -6,17 +6,20 @@ class PurchaseModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))
+    quantity = db.Column(db.Integer)
+
 
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     company = db.relationship('CompanyModel')
 
-    def __init__(self, name, price, company_id):
+    def __init__(self, name, price, quantity, company_id):
         self.name = name
         self.price = price
+        self.quantity = quantity
         self.company_id = company_id
 
     def json(self):
-        return {'name': self.name, 'price': self.price}
+        return {'name': self.name, 'price': self.price, 'quantity': self.quantity}
 
     @classmethod
     def find_by_name(cls, name):

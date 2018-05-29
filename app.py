@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 from resources.company import Company, CompanyList
+from resources.purchase import Purchase, PurchaseList
 from resources.user import UserRegister
 
 from security import authenticate, identity
@@ -19,7 +20,9 @@ def create_tables():
 jwt = JWT(app, authenticate, identity)
 
 api.add_resource(Company, '/company/<string:name>')
+api.add_resource(Purchase, '/purchase/<string:name>')
 api.add_resource(CompanyList, '/companies')
+api.add_resource(PurchaseList, '/purchases')
 api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':

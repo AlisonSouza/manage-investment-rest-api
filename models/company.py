@@ -5,16 +5,14 @@ class CompanyModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    price = db.Column(db.Float(precision=2))
 
     purchases = db.relationship('PurchaseModel', lazy='dynamic')
 
-    def __init__(self, name, price):
+    def __init__(self, name):
         self.name = name
-        self.price = price
 
     def json(self):
-        return {'name': self.name, 'price': self.price, 'purchases': self.purchases.all()}
+        return {'name': self.name, 'purchases': list(map(lambda x: x.json(), self.purchases.all()))}
 
     @classmethod
     def find_by_name(cls, name):

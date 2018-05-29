@@ -5,12 +5,6 @@ from models.company import CompanyModel
 from models.purchase import PurchaseModel
 
 class Company(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('price',
-        type=float,
-        required=True,
-        help="This field cannot be left blank!"
-    )
 
     #@jwt_required()
     def get(self, name):
@@ -23,9 +17,7 @@ class Company(Resource):
         if CompanyModel.find_by_name(name):
             return {'company': "a company with name '{}' already exist.".format(name)}, 400
 
-        data = Company.parser.parse_args()
-
-        company = CompanyModel(name, data['price'])
+        company = CompanyModel(name)
 
         try:
             company.save_to_db()
