@@ -4,6 +4,7 @@ from flask_jwt import JWT, jwt_required
 from resources.company import Company, CompanyList
 from resources.purchase import Purchase, PurchaseList
 from resources.user import UserRegister
+from resources.Sumaries import Sumaries
 
 from security import authenticate, identity
 
@@ -24,6 +25,7 @@ api.add_resource(Purchase, '/purchase/<string:name>')
 api.add_resource(CompanyList, '/companies')
 api.add_resource(PurchaseList, '/purchases')
 api.add_resource(UserRegister, '/register')
+api.add_resource(Sumaries, '/sumaries')
 
 if __name__ == '__main__':
     from db import db
