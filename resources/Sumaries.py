@@ -4,14 +4,7 @@ from models.purchase import PurchaseModel
 
 class Sumaries(Resource):
     def get(self):
-        '''
-        company name
-        sum of shares
-        avarage price
-        total amount
-        '''
         companies = CompanyModel.query.all()
-
         sumaries = []
         for company in companies:
             quantity_shares = 0
@@ -25,13 +18,6 @@ class Sumaries(Resource):
         return {'sumaries': [x.json() for x in sumaries]}
 
 class SumaryDTO():
-    '''
-    company_name
-    quantity_shares
-    avarage_price
-    total_amount
-    '''
-
     def __init__(self, company_name, quantity_shares, avarage_price, total_amount):
         self.company_name = company_name
         self.quantity_shares = quantity_shares
