@@ -7,6 +7,7 @@ class CompanyModel(db.Model):
     name = db.Column(db.String(80))
 
     purchases = db.relationship('PurchaseModel', lazy='dynamic')
+    incomes = db.relationship('IncomeModel', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name
