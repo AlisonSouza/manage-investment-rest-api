@@ -13,7 +13,7 @@ class CompanyModel(db.Model):
         self.name = name
 
     def json(self):
-        return {'name': self.name, 'purchases': list(map(lambda x: x.json(), self.purchases.all()))}
+        return {'name': self.name, 'purchases': list(map(lambda x: x.json(), self.purchases.all())), 'incomes': list(map(lambda x: x.json(), self.incomes.all()))}
 
     @classmethod
     def find_by_name(cls, name):

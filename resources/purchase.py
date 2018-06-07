@@ -20,9 +20,6 @@ class Purchase(Resource):
         company = CompanyModel.find_by_name(name)
         if company:
             data = Purchase.parser.parse_args()
-            
-            #purchase = company.purchases.append(PurchaseModel(name, data['price'], company.id))
-            print("alison {}".format(data))
             purchase = PurchaseModel(name, data['price'], data['quantity'], company.id)
             try:
                 purchase.save_to_db()
