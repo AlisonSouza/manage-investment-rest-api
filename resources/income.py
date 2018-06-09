@@ -1,18 +1,15 @@
 from flask_restful import Resource, Api, reqparse
 from models.income import IncomeModel
 from models.company import CompanyModel
+from datetime import datetime
+
 
 
 class Income(Resource):
     parser = reqparse.RequestParser()
-    """
-    parser.add_argument("-s", 
-        "receive_date", 
-        help="The Receive Date - format YYYY-MM-DD", 
-        required=True, 
-        type=lambda d: datetime.strptime(d, '%YYYY%mm%dd')
-    )
-    """
+    
+    parser.add_argument('receive_date', required=True)
+    
     parser.add_argument('value',
         type=float,
         required=True,
@@ -29,7 +26,9 @@ class Income(Resource):
 
         if company:
             data = Income.parser.parse_args()
-            income = IncomeModel(data['value'], data['income_type'], company.id)
+
+            date = datetime.strptime(data['receive_date'], "%Y-%m-%d")
+            income = IncomeModel(data['value'], data['income_type'], company.id, date)
             try:
                 income.save()
             except:
