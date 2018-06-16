@@ -6,19 +6,19 @@ class Sumaries(Resource):
     def get(self):
         companies = CompanyModel.query.all()
         sumaries = []
-        shares_actual_price = {'EGIE3': 34.74, 
-                            'ODPV3': 13.12,
-                            'LREN3': 29.25,
-                            'MDIA3': 38.85,
-                            'MOVI3': 6.13,
-                            'GRND3': 8.07,
-                            'ARZZ3': 42.16,
-                            'BBSE3': 25.46,
-                            'FLRY3': 24.04,
-                            'CIEL3': 16.42,
-                            'SMLS3': 48.79,
-                            'PSSA3': 41.66,
-                            'WEGE3': 16.50
+        shares_actual_price = {'EGIE3': 34.09, 
+                            'ODPV3': 13.05,
+                            'LREN3': 29.55,
+                            'MDIA3': 40.28,
+                            'MOVI3': 5.99,
+                            'GRND3': 8.04,
+                            'ARZZ3': 42.75,
+                            'BBSE3': 25.27,
+                            'FLRY3': 24.77,
+                            'CIEL3': 15.41,
+                            'SMLS3': 50.40,
+                            'PSSA3': 40.28,
+                            'WEGE3': 15.89
                         }
 
         for company in companies:
@@ -54,7 +54,15 @@ class Sumaries(Resource):
                                       actual_amount_with_income,
                                       actual_percentage_with_income
             ))
-        return {'sumaries': [x.json() for x in sumaries]}
+
+            total_portifolio = 0
+            total_portifolio_actual = 0
+            for dto in sumaries:
+                total_portifolio += dto.total_amount
+                total_portifolio_actual += dto.actual_amount
+            
+
+        return {'total_portifolio_actual': total_portifolio_actual, 'total_portifolio': total_portifolio, 'sumaries': [x.json() for x in sumaries]}
 
 class SumaryDTO():
     def __init__(self, 
