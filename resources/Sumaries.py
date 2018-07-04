@@ -6,19 +6,20 @@ class Sumaries(Resource):
     def get(self):
         companies = CompanyModel.query.all()
         sumaries = []
-        shares_actual_price = {'EGIE3': 34.09, 
-                            'ODPV3': 13.05,
-                            'LREN3': 29.55,
-                            'MDIA3': 40.28,
-                            'MOVI3': 5.99,
-                            'GRND3': 8.04,
-                            'ARZZ3': 42.75,
-                            'BBSE3': 25.27,
-                            'FLRY3': 24.77,
-                            'CIEL3': 15.41,
-                            'SMLS3': 50.40,
-                            'PSSA3': 40.28,
-                            'WEGE3': 15.89
+        shares_actual_price = {'EGIE3': 34.26, 
+                            'ODPV3': 12.69,
+                            'LREN3': 29.00,
+                            'MDIA3': 37.47,
+                            'MOVI3': 5.18,
+                            'GRND3': 8.01,
+                            'ARZZ3': 42.50,
+                            'BBSE3': 24.40,
+                            'FLRY3': 25.71,
+                            'CIEL3': 16.20,
+                            'SMLS3': 52.50,
+                            'PSSA3': 39.80,
+                            'WEGE3': 15.66,
+                            'ITUB3': 35.78
                         }
 
         for company in companies:
@@ -42,6 +43,10 @@ class Sumaries(Resource):
             if quantity_shares != 0:
                 avarage_price = total_amount / quantity_shares
                 percentage = ((actual_amount - total_amount) / total_amount * 100) #((V2-V1)/V1 × 100)
+                actual_amount_with_income += total_income + actual_amount
+                actual_percentage_with_income = ((actual_amount_with_income - total_amount) / total_amount * 100) #((V2-V1)/V1 × 100)
+
+
 
             sumaries.append(SumaryDTO(company.asset, 
                                       quantity_shares,
@@ -59,7 +64,8 @@ class Sumaries(Resource):
             total_portifolio_actual = 0
             for dto in sumaries:
                 total_portifolio += dto.total_amount
-                total_portifolio_actual += dto.actual_amount
+                total_portifolio_actual += dto.actual_amount + dto.total_income
+                
             
 
         return {'total_portifolio_actual': total_portifolio_actual, 'total_portifolio': total_portifolio, 'sumaries': [x.json() for x in sumaries]}
