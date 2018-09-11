@@ -6,20 +6,20 @@ class Sumaries(Resource):
     def get(self):
         companies = CompanyModel.query.all()
         sumaries = []
-        shares_actual_price = {'EGIE3': 34.26, 
-                            'ODPV3': 12.69,
-                            'LREN3': 29.00,
-                            'MDIA3': 37.47,
-                            'MOVI3': 5.18,
-                            'GRND3': 8.01,
-                            'ARZZ3': 42.50,
-                            'BBSE3': 24.40,
-                            'FLRY3': 25.71,
-                            'CIEL3': 16.20,
-                            'SMLS3': 52.50,
-                            'PSSA3': 39.80,
-                            'WEGE3': 15.66,
-                            'ITUB3': 35.78
+        shares_actual_price = {'EGIE3': 36.90, 
+                            'ODPV3': 13.10,
+                            'LREN3': 28.28,
+                            'MDIA3': 42.31,
+                            'MOVI3': 6.02,
+                            'GRND3': 7.16,
+                            'ARZZ3': 39.57,
+                            'BBSE3': 24.48,
+                            'FLRY3': 25.70,
+                            'CIEL3': 15.10,
+                            'SMLS3': 51.91,
+                            'PSSA3': 54.88,
+                            'WEGE3': 19.14,
+                            'ITUB3': 37.40
                         }
 
         for company in companies:
@@ -32,6 +32,7 @@ class Sumaries(Resource):
             actual_amount = 0.0
             actual_amount_with_income = 0.0
             actual_percentage_with_income = 0.0
+            rent_net_value = 0.0
 
             for purchase in company.purchases:
                 quantity_shares += purchase.quantity
@@ -57,7 +58,8 @@ class Sumaries(Resource):
                                       actual_price,
                                       actual_amount,
                                       actual_amount_with_income,
-                                      actual_percentage_with_income
+                                      actual_percentage_with_income,
+                                      rent_net_value
             ))
 
             total_portifolio = 0
@@ -65,10 +67,15 @@ class Sumaries(Resource):
             for dto in sumaries:
                 total_portifolio += dto.total_amount
                 total_portifolio_actual += dto.actual_amount + dto.total_income
+            total_percentage_portifolio = ((total_portifolio_actual - total_portifolio) / total_portifolio * 100)
+
                 
             
 
-        return {'total_portifolio_actual': total_portifolio_actual, 'total_portifolio': total_portifolio, 'sumaries': [x.json() for x in sumaries]}
+        return {'total_portifolio_actual': total_portifolio_actual, 
+                'total_portifolio': total_portifolio, 
+                'total_percentage_portifolio': total_percentage_portifolio, 
+                'sumaries': [x.json() for x in sumaries]}
 
 class SumaryDTO():
     def __init__(self, 
@@ -81,7 +88,8 @@ class SumaryDTO():
                 actual_price,
                 actual_amount,
                 actual_amount_with_income,
-                actual_percentage_with_income
+                actual_percentage_with_income,
+                rent_net_value
                 ):
         self.asset = asset
         self.quantity_shares = quantity_shares
@@ -93,6 +101,7 @@ class SumaryDTO():
         self.actual_amount = actual_amount
         self.actual_amount_with_income = actual_amount_with_income
         self.actual_percentage_with_income = actual_percentage_with_income
+        self.rent_net_value = rent_net_value
 
     def json(self):
         return {'asset': self.asset, 
@@ -104,5 +113,6 @@ class SumaryDTO():
                 'actual_price': self.actual_price,
                 'actual_amount': self.actual_amount,
                 'actual_amount_with_income': self.actual_amount_with_income,
-                'actual_percentage_with_income': self.actual_percentage_with_income
+                'actual_percentage_with_income': self.actual_percentage_with_income,
+                'rent_net_value': self.rent_net_value
                 }
